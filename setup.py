@@ -20,5 +20,6 @@ setup(
         "pandas",
         "tqdm",
         "networkx>=3.0",
+        "duckdb",
     ],
 )

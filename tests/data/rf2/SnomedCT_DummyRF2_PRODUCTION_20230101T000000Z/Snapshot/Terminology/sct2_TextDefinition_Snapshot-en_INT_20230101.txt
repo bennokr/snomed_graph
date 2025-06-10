@@ -1,0 +1,2 @@
+id	effectiveTime	active	moduleId	conceptId	languageCode	typeId	term	caseSignificanceId
+4	20230101	1	100	1	en	900000000000003001	Baz	900000000000448009

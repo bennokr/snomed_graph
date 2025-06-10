@@ -4,7 +4,6 @@ import sys
 # add project root to sys.path so tests can import the package
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import networkx as nx
-import pandas as pd
 import pytest
 
 from snomed_graph.snomed_graph import (
