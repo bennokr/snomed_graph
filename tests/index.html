@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SNOMED Dummy Data Viewer</title>
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <!-- duckdb-wasm JavaScript bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.23.1/dist/duckdb-browser.js"></script>
+</head>
+<body>
+  <h1>SNOMED Dummy Data Viewer</h1>
+  <div id="output"></div>
+  <py-config>
+packages = ["pandas", "duckdb"]
+  </py-config>
+  <py-script output="output">
+from pyodide.http import open_url
+import duckdb
+import pandas as pd
+
+# Paths to dummy RF2 tables relative to this HTML file
+base = "data/rf2/SnomedCT_DummyRF2_PRODUCTION_20230101T000000Z/Snapshot/Terminology/"
+files = {
+    "Concept": base + "sct2_Concept_Snapshot_INT_20230101.txt",
+    "Description": base + "sct2_Description_Snapshot-en_INT_20230101.txt",
+    "TextDefinition": base + "sct2_TextDefinition_Snapshot-en_INT_20230101.txt",
+    "Relationship": base + "sct2_Relationship_Snapshot_INT_20230101.txt",
+}
+
+conn = duckdb.connect()
+for table, path in files.items():
+    df = pd.read_csv(open_url(path), sep="\t")
+    conn.execute(f"CREATE TABLE {table} AS SELECT * FROM df")
+
+for table in files.keys():
+    display(f"--- {table} ---")
+    df = conn.execute(f"SELECT * FROM {table}").df()
+    display(df)
+  </py-script>
+</body>
+</html>
