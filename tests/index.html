@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>SNOMED Dummy Data Viewer</title>
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-  <!-- duckdb-wasm JavaScript bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.23.1/dist/duckdb-browser.js"></script>
+  <!-- PyScript CSS -->
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.8.2/core.css">
+        <!-- This script tag bootstraps PyScript -->
+        <script type="module" src="https://pyscript.net/releases/2024.8.2/core.js"></script>
+
 </head>
 <body>
   <h1>SNOMED Dummy Data Viewer</h1>
-  <div id="output"></div>
-  <py-config>
-packages = ["duckdb"]
-  </py-config>
-  <py-script output="output">
-import duckdb
+  <script type="py-editor" config='{"packages":["duckdb"]}'>
+    import duckdb
 
 # Paths to dummy RF2 tables relative to this HTML file
 base = "data/rf2/SnomedCT_DummyRF2_PRODUCTION_20230101T000000Z/Snapshot/Terminology/"
@@ -34,6 +31,6 @@ for table in files.keys():
     display(f"--- {table} ---")
     df = conn.execute(f"SELECT * FROM {table}").df()
     display(df)
-  </py-script>
+  </script>
 </body>
 </html>
